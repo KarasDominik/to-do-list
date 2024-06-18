@@ -19,8 +19,9 @@ function generateTable(tasks) {
 
     tasks.forEach(task => {
         table += `<tr id="task">`;
-        table += `<td>${task.content}</td>`;
-        table += `<td><button onclick="deleteTask('${task.taskId}')">Usuń</button></td>`;
+        table += `<td><input type="checkbox" ${task.done ? 'checked' : ''}></td>`;
+        table += `<td id="${task.done ? 'done-task' : ''}">${task.content}</td>`;
+        table += `<td><span id="trash-bin" class="glyphicon glyphicon-trash" onclick="deleteTask('${task.taskId}')"></span></td>`;
         table += `</tr>`;
     });
 
@@ -29,8 +30,12 @@ function generateTable(tasks) {
     return table;
 }
 
-function deleteTask(taskId) {
-    console.log("Deleting task " + taskId);
+async function deleteTask(taskId) {
+    await fetch("http://localhost:8080/api/v1/task/" + taskId,
+        {
+            method: 'DELETE'
+        });
+    updateTable();
 }
 
 async function fetchTasks() {
@@ -49,7 +54,7 @@ async function addTask() {
             body: JSON.stringify({
                 content: task
             })
-        })
+        });
     clearForm();
     updateTable();
 }

@@ -19,5 +19,16 @@ input {
 }
 
 #task {
-    color: red;
+    height: 50px;
+    width: 550px;
+    margin-left: 100px;
+}
+
+#done-task {
+    text-decoration: line-through;
+}
+
+#trash-bin {
+    cursor: pointer;
+    margin-left: 50px;
 }

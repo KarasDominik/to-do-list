@@ -32,7 +32,7 @@ class TaskController {
         log.info("Fetching all tasks");
         return new GetTasksResponse(
                 List.of(
-                        new TaskResponse(randomUUID(), "Finish first app to the end", false),
+                        new TaskResponse(randomUUID(), "Finish first app to the end", true),
                         new TaskResponse(randomUUID(), "Lose 10 pounds", false),
                         new TaskResponse(randomUUID(), "Take and finish linux masterclass course", false)
                 )
