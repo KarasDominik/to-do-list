@@ -7,10 +7,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class TaskUpdaterTest {
@@ -25,7 +26,7 @@ class TaskUpdaterTest {
     void shouldThrowWhenTaskNotFound() {
         // given
         var id = UUID.randomUUID();
-        doThrow(TaskNotFoundException.class).when(tasks).findOrThrow(id);
+        when(tasks.findById(id)).thenReturn(Optional.empty());
 
         // when
         assertThatThrownBy(() -> testee.update(id))

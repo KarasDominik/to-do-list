@@ -1,4 +1,4 @@
-package com.karasdominik.task.web;
+package com.karasdominik.common;
 
 import com.karasdominik.task.dto.exception.InvalidContentException;
 import lombok.experimental.UtilityClass;
