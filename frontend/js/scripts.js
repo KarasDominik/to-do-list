@@ -13,13 +13,18 @@ function updateTable() {
     });
 }
 
+async function fetchTasks() {
+    const response = await fetch("http://localhost:8080/api/v1/task");
+    return await response.json();
+}
+
 function generateTable(tasks) {
     let table = `<table>`;
     table += `<tbody>`;
 
     tasks.forEach(task => {
         table += `<tr id="task">`;
-        table += `<td><input type="checkbox" ${task.done ? 'checked' : ''}></td>`;
+        table += `<td><input type="checkbox" ${task.done ? 'checked' : ''} onclick="updateTask('${task.taskId}')"></td>`;
         table += `<td id="${task.done ? 'done-task' : ''}">${task.content}</td>`;
         table += `<td><span id="trash-bin" class="glyphicon glyphicon-trash" onclick="deleteTask('${task.taskId}')"></span></td>`;
         table += `</tr>`;
@@ -28,19 +33,6 @@ function generateTable(tasks) {
     table += `</tbody></table>`;
 
     return table;
-}
-
-async function deleteTask(taskId) {
-    await fetch("http://localhost:8080/api/v1/task/" + taskId,
-        {
-            method: 'DELETE'
-        });
-    updateTable();
-}
-
-async function fetchTasks() {
-    const response = await fetch("http://localhost:8080/api/v1/task");
-    return await response.json();
 }
 
 async function addTask() {
@@ -61,4 +53,20 @@ async function addTask() {
 
 function clearForm() {
     document.getElementById("task-input").value = "";
+}
+
+async function updateTask(taskId) {
+    await fetch("http://localhost:8080/api/v1/task/" + taskId,
+        {
+            method: 'PUT'
+        });
+    updateTable();
+}
+
+async function deleteTask(taskId) {
+    await fetch("http://localhost:8080/api/v1/task/" + taskId,
+        {
+            method: 'DELETE'
+        });
+    updateTable();
 }
