@@ -26,7 +26,7 @@ function generateTable(tasks) {
         table += `<tr id="task">`;
         table += `<td><input type="checkbox" ${task.done ? 'checked' : ''} onclick="updateTask('${task.taskId}')"></td>`;
         table += `<td id="${task.done ? 'done-task' : ''}">${task.content}</td>`;
-        table += `<td><span id="trash-bin" class="glyphicon glyphicon-trash" onclick="deleteTask('${task.taskId}')"></span></td>`;
+        table += `<td><button id="trash-bin" class="glyphicon glyphicon-trash" onclick="deleteTask('${task.taskId}')">Usuń</button></td>`;
         table += `</tr>`;
     });
 
