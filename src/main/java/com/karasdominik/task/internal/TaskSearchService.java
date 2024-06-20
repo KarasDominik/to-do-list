@@ -19,7 +19,7 @@ public class TaskSearchService {
 
     public List<TaskDto> getAll() {
         log.info("Fetching all tasks");
-        return tasks.findAll().stream()
+        return tasks.findAllByOrderByCreatedDateDesc().stream()
                 .map(mapper::asDto)
                 .toList();
     }

@@ -1,5 +1,6 @@
 package com.karasdominik.task.internal;
 
+import com.karasdominik.common.TimeProvider;
 import com.karasdominik.task.dto.CreateTaskCommand;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -15,10 +16,11 @@ import java.util.UUID;
 class TaskCreator {
 
     private final TaskRepository tasks;
+    private final TimeProvider timeProvider;
 
     public UUID create(CreateTaskCommand command) {
         log.info("Creating new task");
-        var task = tasks.save(Task.create(command));
+        var task = tasks.save(Task.create(command, timeProvider::now));
         log.info("Task {} created", task.id());
         return task.id();
     }

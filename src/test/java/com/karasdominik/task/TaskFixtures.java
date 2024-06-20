@@ -1,5 +1,6 @@
 package com.karasdominik.task;
 
+import com.karasdominik.common.TimeProvider;
 import com.karasdominik.task.TasksForTests.TaskData;
 import com.karasdominik.task.internal.Task;
 import com.karasdominik.task.internal.TaskRepository;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 public class TaskFixtures {
 
     private final TaskRepository tasks;
+    private final TimeProvider timeProvider;
 
     public void setUp() {
         createTask(TasksForTests.FINISH_APP);
@@ -27,6 +29,7 @@ public class TaskFixtures {
                 .id(taskData.taskId())
                 .content(taskData.content())
                 .done(taskData.done())
+                .createdDate(timeProvider.now())
                 .build();
         tasks.save(task);
     }

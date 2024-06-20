@@ -1,5 +1,6 @@
 package com.karasdominik.task;
 
+import com.karasdominik.common.TimeProvider;
 import com.karasdominik.task.internal.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -13,6 +14,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class TaskAssertions {
 
     private final TaskRepository tasks;
+    private final TimeProvider timeProvider;
 
     public void assertTaskCreated(UUID taskId, String content) {
         assertThat(tasks.findById(taskId))
@@ -20,6 +22,7 @@ public class TaskAssertions {
                 .hasValueSatisfying(task -> {
                     assertThat(task.content()).isEqualTo(content);
                     assertThat(task.done()).isFalse();
+                    assertThat(task.createdDate()).isEqualTo(timeProvider.now());
                 });
     }
 

@@ -7,7 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.time.Instant;
 import java.util.UUID;
+import java.util.function.Supplier;
 
 import static java.util.UUID.randomUUID;
 
@@ -17,11 +19,12 @@ import static java.util.UUID.randomUUID;
 @Getter
 public class Task {
 
-    public static Task create(CreateTaskCommand command) {
+    public static Task create(CreateTaskCommand command, Supplier<Instant> now) {
         return Task.builder()
                 .id(randomUUID())
                 .content(command.content())
                 .done(false)
+                .createdDate(now.get())
                 .build();
     }
 
@@ -29,6 +32,7 @@ public class Task {
     private UUID id;
     private String content;
     private Boolean done;
+    private Instant createdDate;
 
     public void update() {
         this.done = !done();
