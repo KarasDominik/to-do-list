@@ -12,7 +12,6 @@ public class SystemTimeProvider implements TimeProvider {
 
     @Override
     public Instant now() {
-        System.out.println("Taking time from system clock!");
         return Instant.now(Clock.systemUTC());
     }
 }

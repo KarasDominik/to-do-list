@@ -16,7 +16,6 @@ public class FixedTimeProvider implements TimeProvider {
 
     @Override
     public Instant now() {
-        System.out.println("Taking time from fixed clock!");
         return NOW_DATE_TIME;
     }
 }
