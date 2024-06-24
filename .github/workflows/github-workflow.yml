@@ -22,8 +22,6 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
-          
+
       - name: Build project with maven
         run: mvn clean install
-
-
