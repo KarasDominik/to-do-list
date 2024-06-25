@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: Build project and push docker image to docker hub
+    name: Build project and push docker image to dockerhub
     runs-on: ubuntu-latest
 
     steps:
