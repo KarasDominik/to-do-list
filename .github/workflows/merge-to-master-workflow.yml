@@ -23,18 +23,10 @@ jobs:
       - name: Build project with maven
         run: mvn clean install
 
-      - name: login to docker registry
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-
       - name: Build and push Docker image
         uses: mr-smithers-excellent/docker-build-push@v6
         with:
-          context: .
-          dockerfile: docker/Dockerfile
-          image: dominik4871/todo-list
+          image: ${{ secrets.DOCKER_USERNAME }}/todo-list
           tags: latest
           registry: docker.io
           username: ${{ secrets.DOCKER_USERNAME }}
