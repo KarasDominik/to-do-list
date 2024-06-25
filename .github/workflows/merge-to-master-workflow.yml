@@ -29,10 +29,13 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: build and push docker image to registry
-        uses: docker/build-push-action@v5
+      - name: Build and push Docker image
+        uses: mr-smithers-excellent/docker-build-push@v6
         with:
           context: .
           dockerfile: docker/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/todo-list:latest
+          image: dominik4871/todo-list
+          tags: latest
+          registry: docker.io
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
