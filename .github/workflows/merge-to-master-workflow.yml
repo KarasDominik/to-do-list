@@ -1,10 +1,7 @@
-name: Build project
+name: Build project and push to dockerhub
 
 on:
   push:
-    branches:
-      - master
-  pull_request:
     branches:
       - master
 
