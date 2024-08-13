@@ -28,6 +28,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/login.html").permitAll()
                         .requestMatchers("/login").permitAll()
+                        .requestMatchers("/api/v1/user").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login

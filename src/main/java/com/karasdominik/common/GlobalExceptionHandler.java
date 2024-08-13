@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.karasdominik.task.dto.exception.InvalidContentException;
 import com.karasdominik.task.dto.exception.TaskNotFoundException;
+import com.karasdominik.useraccount.dto.exception.EmailAlreadyUsedException;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -15,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @ControllerAdvice
@@ -32,6 +34,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(TaskNotFoundException.class)
     @ResponseStatus(NOT_FOUND)
     public void handle(HttpServletResponse response, TaskNotFoundException exception) throws IOException {
+        response.getWriter().write(create(exception.message()));
+    }
+
+    @ExceptionHandler(EmailAlreadyUsedException.class)
+    @ResponseStatus(CONFLICT)
+    public void handle(HttpServletResponse response, EmailAlreadyUsedException exception) throws IOException {
         response.getWriter().write(create(exception.message()));
     }
 
