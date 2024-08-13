@@ -1,0 +1,91 @@
+body {
+    background-color: #f4f4f4;
+    font-family: Arial, sans-serif;
+}
+
+#input {
+    max-width: fit-content;
+    margin-top: 40px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+input {
+    margin-right: 50px;
+    height: 35px;
+}
+
+#output {
+    max-width: fit-content;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    font-style: italic;
+}
+
+#task-input {
+    width: 550px;
+}
+
+#done-task {
+    text-decoration: line-through;
+    color: #888;
+}
+
+#trash-bin {
+    cursor: pointer;
+    margin-left: 20px;
+    font-size: larger;
+    color: red;
+    transition: transform 0.3s, color 0.3s;
+}
+
+#trash-bin:hover {
+    transform: scale(1.2);
+    color: darkred;
+}
+
+table {
+    width: 35%;
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+th:nth-child(1), td:nth-child(1) {
+    width: 5%; /* Szerokość kolumny z checkboxem */
+}
+
+th:nth-child(2), td:nth-child(2) {
+    width: 80%; /* Szerokość kolumny z treścią zadania */
+}
+
+th:nth-child(3), td:nth-child(3) {
+    width: 15%; /* Szerokość kolumny z koszem */
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+tr {
+    transition: background-color 0.3s, color 0.3s;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #e1e1e1;
+}
+
+.no-tasks-message {
+    text-align: center;
+    font-style: italic;
+    color: #888;
+}

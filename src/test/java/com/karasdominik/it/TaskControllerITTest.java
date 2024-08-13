@@ -22,6 +22,7 @@ import static com.karasdominik.task.TasksForTests.LEARN_REACT;
 import static com.karasdominik.task.TasksForTests.WRITE_INTEGRATION_TESTS;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -59,7 +60,8 @@ class TaskControllerITTest {
 
         @Test
         void shouldGetAllTasks() throws Exception {
-            mockMvc.perform(get("/api/v1/task"))
+            mockMvc.perform(get("/api/v1/task")
+                            .with(user("admin").password("123")))
                     .andDo(print())
 
                     .andExpect(status().isOk())
@@ -90,6 +92,7 @@ class TaskControllerITTest {
             var request = fetchJsonFrom(Requests.VALID);
 
             var result = mockMvc.perform(post("/api/v1/task")
+                            .with(user("admin").password("123"))
                             .content(request)
                             .contentType(APPLICATION_JSON))
                     .andExpect(status().isCreated())
@@ -114,7 +117,8 @@ class TaskControllerITTest {
         void shouldUpdateTask() throws Exception {
             var taskId = FINISH_APP.taskId();
 
-            mockMvc.perform(put("/api/v1/task/{taskId}", taskId))
+            mockMvc.perform(put("/api/v1/task/{taskId}", taskId)
+                            .with(user("admin").password("123")))
                     .andExpect(status().isOk());
 
             assertions.assertTaskCompleted(taskId);
@@ -128,7 +132,8 @@ class TaskControllerITTest {
         void shouldDeleteTask() throws Exception {
             var taskId = LEARN_REACT.taskId();
 
-            mockMvc.perform(delete("/api/v1/task/{taskId}", taskId.toString()))
+            mockMvc.perform(delete("/api/v1/task/{taskId}", taskId.toString())
+                            .with(user("admin").password("123")))
                     .andExpect(status().isOk());
 
             assertions.assertTaskDeleted(taskId);
