@@ -2,7 +2,7 @@ package com.karasdominik.useraccount.dto;
 
 import com.karasdominik.common.FieldInfo;
 
-import java.util.regex.Pattern;
+import java.util.Set;
 
 import static com.karasdominik.common.FieldUtil.isValid;
 import static com.karasdominik.common.FieldUtil.maxLength;
@@ -16,7 +16,7 @@ public record DecodedPassword(String value) {
     }
 
     private static final FieldInfo PASSWORD = new FieldInfo("Password");
-    private static final Pattern VALID_PASSWORD_PATTERN = Pattern.compile("^(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*(),.?\":{}|<>]).*$");
+    private static final Set<Character> SPECIAL_CHARACTERS = Set.of('!', '@', '#', '$', '%', '&', '*', '(', ')', '\'', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '[', ']', '^', '_', '`', '{', '|', '}');
 
     public DecodedPassword {
         notBlank(PASSWORD, value);
@@ -26,6 +26,28 @@ public record DecodedPassword(String value) {
     }
 
     private boolean isValidPassword(String value) {
-        return VALID_PASSWORD_PATTERN.matcher(value).matches();
+        return containsUppercaseLetter(value) &&
+                containsDigit(value) &&
+                containsSpecialCharacter(value);
+    }
+
+    private boolean containsUppercaseLetter(String value) {
+        return value.codePoints()
+                .anyMatch(Character::isUpperCase);
+    }
+
+    private boolean containsDigit(String value) {
+        return value.codePoints()
+                .anyMatch(Character::isDigit);
+    }
+
+    private boolean containsSpecialCharacter(String value) {
+        return value.codePoints()
+                .mapToObj(c -> (char) c)
+                .anyMatch(this::isSpecialCharacter);
+    }
+
+    private boolean isSpecialCharacter(char character) {
+        return SPECIAL_CHARACTERS.contains(character);
     }
 }

@@ -1,6 +1,7 @@
 package com.karasdominik.common;
 
 import lombok.NoArgsConstructor;
+import org.apache.commons.validator.routines.EmailValidator;
 
 import static io.micrometer.common.util.StringUtils.isBlank;
 import static java.util.Objects.isNull;
@@ -37,5 +38,9 @@ public class FieldUtil {
         if (!expression) {
             throw new InvalidFieldException(String.format("%s is invalid", field.value()));
         }
+    }
+
+    public static boolean isEmail(String value) {
+        return EmailValidator.getInstance().isValid(value);
     }
 }
