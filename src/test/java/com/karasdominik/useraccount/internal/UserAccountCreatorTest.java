@@ -1,6 +1,8 @@
 package com.karasdominik.useraccount.internal;
 
 import com.karasdominik.useraccount.dto.CreateUserAccountCommand;
+import com.karasdominik.useraccount.dto.DecodedPassword;
+import com.karasdominik.useraccount.dto.Email;
 import com.karasdominik.useraccount.dto.exception.EmailAlreadyUsedException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,11 +28,11 @@ class UserAccountCreatorTest {
     @Test
     void shouldNotCreateUserWhenEmailAlreadyUsed() {
         // given
-        var email = "test@gmail.com";
-        when(users.existsByEmail(email)).thenReturn(true);
+        var email = Email.of("test@gmail.com");
+        when(users.existsByEmail(email.value())).thenReturn(true);
         var command = CreateUserAccountCommand.builder()
                 .email(email)
-                .password("password")
+                .password(new DecodedPassword("Password123!"))
                 .build();
 
         // when

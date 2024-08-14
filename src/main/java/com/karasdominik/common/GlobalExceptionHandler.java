@@ -2,7 +2,6 @@ package com.karasdominik.common;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.karasdominik.task.dto.exception.InvalidContentException;
 import com.karasdominik.task.dto.exception.TaskNotFoundException;
 import com.karasdominik.useraccount.dto.exception.EmailAlreadyUsedException;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,9 +24,9 @@ public class GlobalExceptionHandler {
 
     private final ObjectMapper mapper;
 
-    @ExceptionHandler(InvalidContentException.class)
+    @ExceptionHandler(InvalidFieldException.class)
     @ResponseStatus(BAD_REQUEST)
-    public void handle(HttpServletResponse response, InvalidContentException exception) throws IOException {
+    public void handle(HttpServletResponse response, InvalidFieldException exception) throws IOException {
         response.getWriter().write(create(exception.message()));
     }
 

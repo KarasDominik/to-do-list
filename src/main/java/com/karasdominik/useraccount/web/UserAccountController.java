@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.karasdominik.useraccount.web.UserAccountRequestMapper.asCommand;
 import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
@@ -16,11 +17,10 @@ import static org.springframework.http.HttpStatus.CREATED;
 class UserAccountController {
 
     private final UserAccountManagement management;
-    private final UserAccountRequestMapper mapper;
 
     @PostMapping
     @ResponseStatus(CREATED)
     CreateUserResponse create(@RequestBody CreateUserAccountRequest request) {
-        return CreateUserResponse.of(management.create(mapper.asCommand(request)));
+        return CreateUserResponse.of(management.create(asCommand(request)));
     }
 }

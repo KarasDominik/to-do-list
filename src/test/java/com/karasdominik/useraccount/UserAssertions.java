@@ -20,9 +20,9 @@ public class UserAssertions {
     public void assertUserCreated(UUID userId, Map<String, String> expectedContent) {
         assertThat(users.findById(userId))
                 .isPresent()
-                .hasValueSatisfying(task -> {
-                    assertThat(task.email()).isEqualTo(expectedContent.get("email"));
-                    assertThat(passwordEncoder.matches(expectedContent.get("password"), task.password())).isTrue();
+                .hasValueSatisfying(user -> {
+                    assertThat(user.email().value()).isEqualTo(expectedContent.get("email"));
+                    assertThat(passwordEncoder.matches(expectedContent.get("password"), user.password())).isTrue();
                 });
     }
 }

@@ -2,17 +2,13 @@ package com.karasdominik.it;
 
 import com.karasdominik.task.TaskAssertions;
 import com.karasdominik.task.TaskFixtures;
+import com.karasdominik.useraccount.UserFixtures;
 import org.json.JSONObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.UUID;
 
@@ -20,63 +16,67 @@ import static com.karasdominik.FileUtils.fetchJsonFrom;
 import static com.karasdominik.task.TasksForTests.FINISH_APP;
 import static com.karasdominik.task.TasksForTests.LEARN_REACT;
 import static com.karasdominik.task.TasksForTests.WRITE_INTEGRATION_TESTS;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static com.karasdominik.useraccount.UsersForTests.BOB;
+import static com.karasdominik.useraccount.UsersForTests.SUPPORT;
+import static io.restassured.RestAssured.given;
+import static io.restassured.http.ContentType.JSON;
+import static jakarta.servlet.http.HttpServletResponse.SC_CREATED;
+import static jakarta.servlet.http.HttpServletResponse.SC_OK;
+import static org.hamcrest.Matchers.is;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@ContextConfiguration(initializers = {DockerizedDbInitializer.class})
-@ActiveProfiles("test")
-class TaskControllerITTest {
+class TaskControllerITTest extends BaseAbstractITTest {
+
+    private static final String PATH = "/api/v1/task";
+    private static final String SINGLE_PATH = "/api/v1/task/{id}";
 
     @Autowired
-    private MockMvc mockMvc;
+    private TaskFixtures tasks;
+    @Autowired
+    private UserFixtures users;
 
     @Autowired
-    private TaskFixtures fixtures;
-    @Autowired
-    private TaskAssertions assertions;
+    private TaskAssertions taskAssertions;
 
+    @Override
     @BeforeEach
     void setUp() {
-        fixtures.setUp();
+        super.setUp();
+        users.setUp();
+        tasks.setUp();
     }
 
+    @Override
     @AfterEach
     void tearDown() {
-        fixtures.tearDown();
+        tasks.tearDown();
+        super.tearDown();
     }
 
     @Nested
     class GetAllTests {
 
         @Test
-        void shouldGetAllTasks() throws Exception {
-            mockMvc.perform(get("/api/v1/task")
-                            .with(user("admin").password("123")))
-                    .andDo(print())
+        void shouldGetAllTasks() {
+            given()
+                .auth()
+                .basic(SUPPORT.email().value(), SUPPORT.decodedPassword().value())
+            .when()
+                .get(PATH)
+            .then()
+                .statusCode(SC_OK)
+                .body("tasks.size()", is(3))
 
-                    .andExpect(status().isOk())
+                .body("tasks[0].taskId", is(FINISH_APP.taskId().toString()))
+                .body("tasks[0].content", is(FINISH_APP.content()))
+                .body("tasks[0].done", is(FINISH_APP.done()))
 
-                    .andExpect(jsonPath("$.tasks[0].taskId").value(FINISH_APP.taskId().toString()))
-                    .andExpect(jsonPath("$.tasks[0].content").value(FINISH_APP.content()))
-                    .andExpect(jsonPath("$.tasks[0].done").value(FINISH_APP.done()))
+                .body("tasks[1].taskId", is(LEARN_REACT.taskId().toString()))
+                .body("tasks[1].content", is(LEARN_REACT.content()))
+                .body("tasks[1].done", is(LEARN_REACT.done()))
 
-                    .andExpect(jsonPath("$.tasks[1].taskId").value(LEARN_REACT.taskId().toString()))
-                    .andExpect(jsonPath("$.tasks[1].content").value(LEARN_REACT.content()))
-                    .andExpect(jsonPath("$.tasks[1].done").value(LEARN_REACT.done()))
-
-                    .andExpect(jsonPath("$.tasks[2].taskId").value(WRITE_INTEGRATION_TESTS.taskId().toString()))
-                    .andExpect(jsonPath("$.tasks[2].content").value(WRITE_INTEGRATION_TESTS.content()))
-                    .andExpect(jsonPath("$.tasks[2].done").value(WRITE_INTEGRATION_TESTS.done()));
+                .body("tasks[2].taskId", is(WRITE_INTEGRATION_TESTS.taskId().toString()))
+                .body("tasks[2].content", is(WRITE_INTEGRATION_TESTS.content()))
+                .body("tasks[2].done", is(WRITE_INTEGRATION_TESTS.done()));
         }
     }
 
@@ -84,29 +84,29 @@ class TaskControllerITTest {
     class CreateTests {
 
         private static final class Requests {
-            private static final String VALID = "src/test/resources/web/requests/create/valid.json";
+            private static final String VALID = "src/test/resources/web/requests/task/create/valid.json";
         }
 
         @Test
         void shouldCreateTask() throws Exception {
             var request = fetchJsonFrom(Requests.VALID);
 
-            var result = mockMvc.perform(post("/api/v1/task")
-                            .with(user("admin").password("123"))
-                            .content(request)
-                            .contentType(APPLICATION_JSON))
-                    .andExpect(status().isCreated())
-                    .andExpect(jsonPath("$.taskId", notNullValue()))
-                    .andReturn();
+            var taskId =
+                    given()
+                        .auth()
+                        .basic(SUPPORT.email().value(), SUPPORT.decodedPassword().value())
+                    .when()
+                        .contentType(JSON)
+                        .body(request)
+                        .post(PATH)
+                    .then().statusCode(SC_CREATED)
+                        .extract()
+                        .path("taskId");
 
-            var response = result.getResponse().getContentAsString();
-
-            var taskId = new JSONObject(response)
-                    .getString("taskId");
             var content = new JSONObject(request)
                     .getString("content");
 
-            assertions.assertTaskCreated(UUID.fromString(taskId), content);
+            taskAssertions.assertTaskCreated(UUID.fromString(taskId.toString()), content);
         }
     }
 
@@ -114,14 +114,18 @@ class TaskControllerITTest {
     class UpdateTests {
 
         @Test
-        void shouldUpdateTask() throws Exception {
+        void shouldUpdateTask() {
             var taskId = FINISH_APP.taskId();
 
-            mockMvc.perform(put("/api/v1/task/{taskId}", taskId)
-                            .with(user("admin").password("123")))
-                    .andExpect(status().isOk());
+            given()
+                .auth()
+                .basic(BOB.email().value(), BOB.decodedPassword().value())
+            .when()
+                .put(SINGLE_PATH, taskId)
+            .then()
+                .statusCode(SC_OK);
 
-            assertions.assertTaskCompleted(taskId);
+            taskAssertions.assertTaskCompleted(taskId);
         }
     }
 
@@ -129,14 +133,18 @@ class TaskControllerITTest {
     class DeleteTests {
 
         @Test
-        void shouldDeleteTask() throws Exception {
+        void shouldDeleteTask() {
             var taskId = LEARN_REACT.taskId();
 
-            mockMvc.perform(delete("/api/v1/task/{taskId}", taskId.toString())
-                            .with(user("admin").password("123")))
-                    .andExpect(status().isOk());
+            given()
+                .auth()
+                .basic(SUPPORT.email().value(), SUPPORT.decodedPassword().value())
+            .when()
+                .delete(SINGLE_PATH, taskId)
+            .then()
+                .statusCode(SC_OK);
 
-            assertions.assertTaskDeleted(taskId);
+            taskAssertions.assertTaskDeleted(taskId);
         }
     }
 }

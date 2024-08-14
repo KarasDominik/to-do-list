@@ -1,6 +1,5 @@
 package com.karasdominik.task.web;
 
-import com.karasdominik.security.SecurityBeans;
 import com.karasdominik.security.SecurityConfiguration;
 import com.karasdominik.task.TaskManagement;
 import org.junit.jupiter.api.Nested;
@@ -25,8 +24,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(TaskController.class)
-@WithMockUser(username = "admin", password = "123")
-@Import({SecurityConfiguration.class, SecurityBeans.class})
+@WithMockUser(username = "support@gmail.com", password = "testPassword")
+@Import(SecurityConfiguration.class)
 class TaskControllerWebTest {
 
     private static final String PATH = "/api/v1/task";
@@ -41,7 +40,7 @@ class TaskControllerWebTest {
     class CreateTests {
 
         private static final class Requests {
-            private static final String REQUESTS_DIR = "src/test/resources/web/requests/create";
+            private static final String REQUESTS_DIR = "src/test/resources/web/requests/task/create";
             private static final String INVALID_CONTENT_BLANK = REQUESTS_DIR + "/invalid-content-blank.json";
             private static final String INVALID_CONTENT_NULL = REQUESTS_DIR + "/invalid-content-null.json";
             private static final String INVALID_CONTENT_TOO_LONG = REQUESTS_DIR + "/invalid-content-too-long.json";
@@ -70,7 +69,7 @@ class TaskControllerWebTest {
                         CreateTests.Requests.INVALID_CONTENT_NULL, "Content cannot be blank"
                 ),
                 Arguments.of(
-                        CreateTests.Requests.INVALID_CONTENT_TOO_LONG, "Content exceeds maximum length: 50"
+                        CreateTests.Requests.INVALID_CONTENT_TOO_LONG, "Content can contain up to 80 characters"
                 )
         );
     }

@@ -1,20 +1,20 @@
 package com.karasdominik.useraccount.web;
 
 import com.karasdominik.useraccount.dto.CreateUserAccountCommand;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
+import com.karasdominik.useraccount.dto.DecodedPassword;
+import com.karasdominik.useraccount.dto.Email;
+import lombok.NoArgsConstructor;
 
-@Component
-@RequiredArgsConstructor
+import static lombok.AccessLevel.PRIVATE;
+
+@NoArgsConstructor(access = PRIVATE)
 class UserAccountRequestMapper {
 
-    private final PasswordEncoder passwordEncoder;
 
-    CreateUserAccountCommand asCommand(CreateUserAccountRequest request) {
+    static CreateUserAccountCommand asCommand(CreateUserAccountRequest request) {
         return CreateUserAccountCommand.builder()
-                .email(request.email())
-                .password(passwordEncoder.encode(request.password()))
+                .email(Email.of(request.email()))
+                .password(DecodedPassword.of(request.password()))
                 .build();
     }
 }
