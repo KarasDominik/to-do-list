@@ -3,7 +3,6 @@ package com.karasdominik.common;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.karasdominik.task.dto.exception.TaskNotFoundException;
-import com.karasdominik.useraccount.dto.exception.EmailAlreadyUsedException;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -36,9 +35,9 @@ public class GlobalExceptionHandler {
         response.getWriter().write(create(exception.message()));
     }
 
-    @ExceptionHandler(EmailAlreadyUsedException.class)
+    @ExceptionHandler(ConflictedRequestException.class)
     @ResponseStatus(CONFLICT)
-    public void handle(HttpServletResponse response, EmailAlreadyUsedException exception) throws IOException {
+    public void handle(HttpServletResponse response, ConflictedRequestException exception) throws IOException {
         response.getWriter().write(create(exception.message()));
     }
 

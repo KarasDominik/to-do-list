@@ -1,7 +1,7 @@
 package com.karasdominik.it;
 
-import com.karasdominik.task.TaskAssertions;
 import com.karasdominik.task.TaskFixtures;
+import com.karasdominik.task.TaskTestAssertions;
 import com.karasdominik.useraccount.UserFixtures;
 import org.json.JSONObject;
 import org.junit.jupiter.api.AfterEach;
@@ -15,7 +15,6 @@ import java.util.UUID;
 import static com.karasdominik.FileUtils.fetchJsonFrom;
 import static com.karasdominik.task.TasksForTests.FINISH_APP;
 import static com.karasdominik.task.TasksForTests.LEARN_REACT;
-import static com.karasdominik.task.TasksForTests.WRITE_INTEGRATION_TESTS;
 import static com.karasdominik.useraccount.UsersForTests.BOB;
 import static com.karasdominik.useraccount.UsersForTests.SUPPORT;
 import static io.restassured.RestAssured.given;
@@ -35,7 +34,7 @@ class TaskControllerITTest extends BaseAbstractITTest {
     private UserFixtures users;
 
     @Autowired
-    private TaskAssertions taskAssertions;
+    private TaskTestAssertions taskAssertions;
 
     @Override
     @BeforeEach
@@ -59,12 +58,12 @@ class TaskControllerITTest extends BaseAbstractITTest {
         void shouldGetAllTasks() {
             given()
                 .auth()
-                .basic(SUPPORT.email().value(), SUPPORT.decodedPassword().value())
+                .basic(BOB.email().value(), BOB.decodedPassword().value())
             .when()
                 .get(PATH)
             .then()
                 .statusCode(SC_OK)
-                .body("tasks.size()", is(3))
+                .body("tasks.size()", is(2))
 
                 .body("tasks[0].taskId", is(FINISH_APP.taskId().toString()))
                 .body("tasks[0].content", is(FINISH_APP.content()))
@@ -72,11 +71,7 @@ class TaskControllerITTest extends BaseAbstractITTest {
 
                 .body("tasks[1].taskId", is(LEARN_REACT.taskId().toString()))
                 .body("tasks[1].content", is(LEARN_REACT.content()))
-                .body("tasks[1].done", is(LEARN_REACT.done()))
-
-                .body("tasks[2].taskId", is(WRITE_INTEGRATION_TESTS.taskId().toString()))
-                .body("tasks[2].content", is(WRITE_INTEGRATION_TESTS.content()))
-                .body("tasks[2].done", is(WRITE_INTEGRATION_TESTS.done()));
+                .body("tasks[1].done", is(LEARN_REACT.done()));
         }
     }
 
@@ -138,7 +133,7 @@ class TaskControllerITTest extends BaseAbstractITTest {
 
             given()
                 .auth()
-                .basic(SUPPORT.email().value(), SUPPORT.decodedPassword().value())
+                .basic(BOB.email().value(), BOB.decodedPassword().value())
             .when()
                 .delete(SINGLE_PATH, taskId)
             .then()

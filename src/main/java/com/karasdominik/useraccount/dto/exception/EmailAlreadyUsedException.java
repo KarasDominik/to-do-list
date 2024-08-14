@@ -1,13 +1,10 @@
 package com.karasdominik.useraccount.dto.exception;
 
-import lombok.Getter;
+import com.karasdominik.common.ConflictedRequestException;
 
-@Getter
-public class EmailAlreadyUsedException extends RuntimeException {
-
-    private final String message;
+public class EmailAlreadyUsedException extends ConflictedRequestException {
 
     public EmailAlreadyUsedException(String email) {
-        this.message = String.format("Email %s is already in use", email);
+        super(String.format("Email %s is already in use", email));
     }
 }

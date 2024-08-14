@@ -1,7 +1,6 @@
 package com.karasdominik.task.internal;
 
 import com.karasdominik.task.dto.exception.TaskAccessException;
-import com.karasdominik.useraccount.internal.UserAccount;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -15,7 +14,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class TaskUpdaterTest {
+class TaskRemoverTest {
 
     @Mock
     private TaskRepository tasks;
@@ -23,26 +22,21 @@ class TaskUpdaterTest {
     private TaskAssertions assertions;
 
     @InjectMocks
-    private TaskUpdater testee;
+    private TaskRemover testee;
 
     @Test
-    void shouldNotUpdateWhenUserIsNotTaskOwner() {
+    void shouldNotRemoveWhenLoggedUserIsNotTaskOwner() {
         // given
         var taskId = UUID.fromString("f90515b5-437f-4427-abf6-e46afe1f0d54");
         var task = Task.builder()
-                .user(UserAccount.builder()
-                        .id(taskId)
-                        .build()
-                )
+                .id(taskId)
                 .build();
 
         when(tasks.findOrThrow(taskId)).thenReturn(task);
         doThrow(TaskAccessException.class).when(assertions).assertLoggedUserCanAccessTask(task);
 
-        // when
-        assertThatThrownBy(() -> testee.update(taskId))
-                // then
+        // when-then
+        assertThatThrownBy(() -> testee.deleteBy(taskId))
                 .isInstanceOf(TaskAccessException.class);
     }
-
 }

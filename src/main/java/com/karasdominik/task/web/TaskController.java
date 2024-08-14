@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.UUID;
 
 import static com.karasdominik.task.web.RequestMapper.asCommand;
+import static com.karasdominik.task.web.RequestMapper.asQuery;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,7 +31,8 @@ class TaskController {
 
     @GetMapping
     GetTasksResponse getAll() {
-        return GetTasksResponse.of(management.getAll());
+        var loggedUser = loggedUserProvider.getLoggedUser();
+        return GetTasksResponse.of(management.getAll(asQuery(loggedUser.id())));
     }
 
     @PostMapping

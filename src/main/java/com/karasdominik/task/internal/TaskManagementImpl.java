@@ -2,6 +2,7 @@ package com.karasdominik.task.internal;
 
 import com.karasdominik.task.TaskManagement;
 import com.karasdominik.task.dto.CreateTaskCommand;
+import com.karasdominik.task.dto.SearchTasksQuery;
 import com.karasdominik.task.dto.TaskDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -24,8 +25,8 @@ public class TaskManagementImpl implements TaskManagement {
     }
 
     @Override
-    public List<TaskDto> getAll() {
-        return searchService.getAll();
+    public List<TaskDto> getAll(SearchTasksQuery query) {
+        return searchService.getAll(query);
     }
 
     @Override

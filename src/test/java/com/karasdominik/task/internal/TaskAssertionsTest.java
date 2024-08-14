@@ -1,5 +1,7 @@
 package com.karasdominik.task.internal;
 
+import com.karasdominik.common.LoggedUserProvider;
+import com.karasdominik.common.LoggedUserProvider.LoggedUser;
 import com.karasdominik.task.dto.exception.TaskAccessException;
 import com.karasdominik.useraccount.internal.UserAccount;
 import org.junit.jupiter.api.Test;
@@ -11,37 +13,30 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class TaskUpdaterTest {
+class TaskAssertionsTest {
 
     @Mock
-    private TaskRepository tasks;
-    @Mock
-    private TaskAssertions assertions;
-
+    private LoggedUserProvider loggedUserProvider;
     @InjectMocks
-    private TaskUpdater testee;
+    private TaskAssertions testee;
 
     @Test
-    void shouldNotUpdateWhenUserIsNotTaskOwner() {
+    void shouldThrowWhenLoggedUserIsNotTaskOwner() {
         // given
-        var taskId = UUID.fromString("f90515b5-437f-4427-abf6-e46afe1f0d54");
+        var loggedUser = new LoggedUser(UUID.fromString("14795584-358e-4869-b6a8-a594656c53d3"));
         var task = Task.builder()
                 .user(UserAccount.builder()
-                        .id(taskId)
-                        .build()
-                )
+                        .id(UUID.fromString("8b14e9f0-7d61-4c0b-8a0b-86c49844f0ab"))
+                        .build())
                 .build();
 
-        when(tasks.findOrThrow(taskId)).thenReturn(task);
-        doThrow(TaskAccessException.class).when(assertions).assertLoggedUserCanAccessTask(task);
+        when(loggedUserProvider.getLoggedUser()).thenReturn(loggedUser);
 
-        // when
-        assertThatThrownBy(() -> testee.update(taskId))
-                // then
+        // when-then
+        assertThatThrownBy(() -> testee.assertLoggedUserCanAccessTask(task))
                 .isInstanceOf(TaskAccessException.class);
     }
 
