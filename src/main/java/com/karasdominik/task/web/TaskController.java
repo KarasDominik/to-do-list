@@ -1,5 +1,6 @@
 package com.karasdominik.task.web;
 
+import com.karasdominik.common.LoggedUserProvider;
 import com.karasdominik.task.TaskManagement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,7 @@ import static com.karasdominik.task.web.RequestMapper.asCommand;
 class TaskController {
 
     private final TaskManagement management;
+    private final LoggedUserProvider loggedUserProvider;
 
     @GetMapping
     GetTasksResponse getAll() {
@@ -34,7 +36,8 @@ class TaskController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     CreateTaskResponse create(@RequestBody CreateTaskRequest request) {
-        return CreateTaskResponse.of(management.create(asCommand(request)));
+        var loggedUser = loggedUserProvider.getLoggedUser();
+        return CreateTaskResponse.of(management.create(asCommand(request, loggedUser.id())));
     }
 
     @PutMapping("{taskId}")

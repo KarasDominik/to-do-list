@@ -1,7 +1,10 @@
 package com.karasdominik.task.web;
 
+import com.karasdominik.common.LoggedUserProvider;
+import com.karasdominik.common.LoggedUserProvider.LoggedUser;
 import com.karasdominik.security.SecurityConfiguration;
 import com.karasdominik.task.TaskManagement;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -16,7 +19,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.stream.Stream;
 
 import static com.karasdominik.FileUtils.fetchJsonFrom;
+import static java.util.UUID.randomUUID;
 import static org.hamcrest.core.Is.is;
+import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -30,11 +35,20 @@ class TaskControllerWebTest {
 
     private static final String PATH = "/api/v1/task";
 
+    private static final LoggedUser LOGGED_USER = new LoggedUser(randomUUID());
+
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
     private TaskManagement management;
+    @MockBean
+    private LoggedUserProvider loggedUserProvider;
+
+    @BeforeEach
+    void setUp() {
+        when(loggedUserProvider.getLoggedUser()).thenReturn(LOGGED_USER);
+    }
 
     @Nested
     class CreateTests {
