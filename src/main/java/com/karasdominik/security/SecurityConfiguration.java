@@ -32,7 +32,8 @@ public class SecurityConfiguration {
                         .requestMatchers("/login").permitAll()
                         .requestMatchers("/api/v1/user").permitAll()
                         .requestMatchers("/register.html").permitAll()
-                        .requestMatchers("/scripts/main.js").permitAll()
+                        .requestMatchers("/scripts/**").permitAll()
+                        .requestMatchers("/styles/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login
