@@ -22,4 +22,9 @@ public record Email(String value) {
         value = value.toLowerCase();
 
     }
+
+    @Override
+    public String toString() {
+        return value;
+    }
 }

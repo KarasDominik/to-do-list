@@ -10,10 +10,12 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class SecurityConfiguration {
 
     @Bean
@@ -29,12 +31,18 @@ public class SecurityConfiguration {
                         .requestMatchers("/login.html").permitAll()
                         .requestMatchers("/login").permitAll()
                         .requestMatchers("/api/v1/user").permitAll()
+                        .requestMatchers("/register.html").permitAll()
+                        .requestMatchers("/scripts/main.js").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login
                         .loginPage("/login.html")
                         .defaultSuccessUrl("/", true)
                 )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .invalidateHttpSession(true)
+                        .logoutSuccessUrl("/login"))
                 .httpBasic(Customizer.withDefaults());
         return http.build();
     }

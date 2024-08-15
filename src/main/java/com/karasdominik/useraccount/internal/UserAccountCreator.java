@@ -30,6 +30,7 @@ class UserAccountCreator {
 
     private void assertEmailNotUsed(String email) {
         if (users.existsByEmail(email)) {
+            log.warn("User {} could not be created because email is already taken", email);
             throw new EmailAlreadyUsedException(email);
         }
     }
