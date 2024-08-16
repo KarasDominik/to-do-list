@@ -15,23 +15,24 @@ document.getElementById("register-form").addEventListener("submit", function (ev
     })
         .then(res => res.json())
         .then(data => {
-            let message = createMessageIfNotExists();
+            let alert = createAlertIfNotExists();
             if (userCreated(data)) {
-                handleSuccess(message);
+                handleSuccess(alert);
             } else {
-                handleError(data, message);
+                handleError(data, alert);
             }
-            displayMessage(message);
+            displayAlert(alert);
         })
 });
 
-function createMessageIfNotExists() {
-    let message = document.getElementById("message");
-    if (!message) {
-        message = document.createElement("p");
-        message.id = "message";
+function createAlertIfNotExists() {
+    let alert = document.getElementById("alert-message");
+    if (!alert) {
+        alert = document.createElement("div");
+        alert.id = "alert-message";
+        alert.setAttribute("role", "alert");
     }
-    return message;
+    return alert;
 }
 
 function clearForm() {
@@ -42,22 +43,21 @@ function userCreated(data) {
     return data.userId;
 }
 
-function handleSuccess(message) {
-    createMessageContent(message, "User created successfully!", "green")
+function handleSuccess(alert) {
+    createAlertContent(alert, "User created successfully!", "alert-success")
     clearForm();
 }
 
-function createMessageContent(message, content, color) {
-    message.textContent = content;
-    message.style.color = color;
+function createAlertContent(alert, content, alertClass) {
+    alert.textContent = content;
+    alert.className = `alert ${alertClass}`;
 }
 
-function handleError(data, message) {
-    const errorMessage = "Failed to create user: " + (data.errorMessage || "Unknown error");
-    createMessageContent(message, errorMessage, "red")
+function handleError(data, alert) {
+    const errorMessage = data.errorMessage || "Failed to create user";
+    createAlertContent(alert, errorMessage, "alert-danger")
 }
 
-function displayMessage(message) {
-    message.style.textAlign = "center";
-    document.body.appendChild(message);
+function displayAlert(alert) {
+    document.body.appendChild(alert);
 }
