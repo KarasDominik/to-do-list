@@ -15,3 +15,13 @@ To run the application:
 4. Open your browser and go to: <link>http://localhost:8080</link>
 5. When you are done using the application, run the following command inside <i>docker</i> directory to remove docker containers:
 <code> docker compose down </code>
+
+## App versions
+
+v1 - The first version of the application enabled users to perform basic CRUD operations such as displaying, creating, deleting and changing the status of tasks.
+
+v2 (current) - With this update, the functionality of creating user account and logging into the application was provided. As a result, every user can manage his own tasks and be sure that no other user can view and / or perform any operations on his tasks.
+
+Plans for further updates:
+- Change frontend implementation from basic HTML / CSS / JavaScript to React.js to enhance user experience
+- Add new functionalities regarding tasks, such as recurring tasks
