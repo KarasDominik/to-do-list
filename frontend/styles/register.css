@@ -1,0 +1,11 @@
+#login-prompt {
+    text-align: center;
+    margin-top: 1%;
+}
+
+#alert-message {
+    max-width: fit-content;
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+}
