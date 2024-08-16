@@ -38,6 +38,7 @@ public class SecurityConfiguration {
                 )
                 .formLogin(login -> login
                         .loginPage("/login.html")
+                        .usernameParameter("email")
                         .defaultSuccessUrl("/", true)
                 )
                 .logout(logout -> logout
