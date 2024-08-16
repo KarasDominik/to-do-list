@@ -15,22 +15,49 @@ document.getElementById("register-form").addEventListener("submit", function (ev
     })
         .then(res => res.json())
         .then(data => {
-            let message = document.getElementById("message");
-            if (!message) {
-                message = document.createElement("p");
-                message.id = "message";
-            }
-            if (data.userId) {
-                message.textContent = "User created successfully!";
-                message.style.color = "green";
+            let message = createMessageIfNotExists();
+            if (userCreated(data)) {
+                handleSuccess(message);
             } else {
-                message.textContent = "Failed to create user: " + (data.errorMessage || "Unknown error");
-                message.style.color = "red";
+                handleError(data, message);
             }
-            message.style.textAlign = "center";
-            document.body.appendChild(message);
+            displayMessage(message);
         })
-        .finally(() => {
-            document.getElementById("register-form").reset();
-        })
-})
+});
+
+function createMessageIfNotExists() {
+    let message = document.getElementById("message");
+    if (!message) {
+        message = document.createElement("p");
+        message.id = "message";
+    }
+    return message;
+}
+
+function clearForm() {
+    document.getElementById("register-form").reset();
+}
+
+function userCreated(data) {
+    return data.userId;
+}
+
+function handleSuccess(message) {
+    createMessageContent(message, "User created successfully!", "green")
+    clearForm();
+}
+
+function createMessageContent(message, content, color) {
+    message.textContent = content;
+    message.style.color = color;
+}
+
+function handleError(data, message) {
+    const errorMessage = "Failed to create user: " + (data.errorMessage || "Unknown error");
+    createMessageContent(message, errorMessage, "red")
+}
+
+function displayMessage(message) {
+    message.style.textAlign = "center";
+    document.body.appendChild(message);
+}
