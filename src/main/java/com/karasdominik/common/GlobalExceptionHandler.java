@@ -2,7 +2,6 @@ package com.karasdominik.common;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.karasdominik.task.dto.exception.InvalidContentException;
 import com.karasdominik.task.dto.exception.TaskNotFoundException;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @ControllerAdvice
@@ -23,15 +23,21 @@ public class GlobalExceptionHandler {
 
     private final ObjectMapper mapper;
 
-    @ExceptionHandler(InvalidContentException.class)
+    @ExceptionHandler(InvalidFieldException.class)
     @ResponseStatus(BAD_REQUEST)
-    public void handle(HttpServletResponse response, InvalidContentException exception) throws IOException {
+    public void handle(HttpServletResponse response, InvalidFieldException exception) throws IOException {
         response.getWriter().write(create(exception.message()));
     }
 
     @ExceptionHandler(TaskNotFoundException.class)
     @ResponseStatus(NOT_FOUND)
     public void handle(HttpServletResponse response, TaskNotFoundException exception) throws IOException {
+        response.getWriter().write(create(exception.message()));
+    }
+
+    @ExceptionHandler(ConflictedRequestException.class)
+    @ResponseStatus(CONFLICT)
+    public void handle(HttpServletResponse response, ConflictedRequestException exception) throws IOException {
         response.getWriter().write(create(exception.message()));
     }
 

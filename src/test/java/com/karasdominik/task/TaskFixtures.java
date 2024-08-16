@@ -4,6 +4,7 @@ import com.karasdominik.common.TimeProvider;
 import com.karasdominik.task.TasksForTests.TaskData;
 import com.karasdominik.task.internal.Task;
 import com.karasdominik.task.internal.TaskRepository;
+import com.karasdominik.useraccount.internal.UserAccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 public class TaskFixtures {
 
     private final TaskRepository tasks;
+    private final UserAccountRepository users;
     private final TimeProvider timeProvider;
 
     public void setUp() {
@@ -29,6 +31,7 @@ public class TaskFixtures {
                 .id(taskData.taskId())
                 .content(taskData.content())
                 .done(taskData.done())
+                .user(users.findOrThrow(taskData.userId()))
                 .createdDate(timeProvider.now())
                 .build();
         tasks.save(task);

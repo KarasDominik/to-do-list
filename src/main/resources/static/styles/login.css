@@ -1,0 +1,11 @@
+#register-prompt {
+    margin-top: 1%;
+    text-align: center;
+}
+
+#error-message {
+    max-width: fit-content;
+    margin-top: 40px;
+    margin-right: auto;
+    margin-left: auto;
+}

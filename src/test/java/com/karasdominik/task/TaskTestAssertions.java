@@ -11,7 +11,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @Component
 @RequiredArgsConstructor
-public class TaskAssertions {
+public class TaskTestAssertions {
 
     private final TaskRepository tasks;
     private final TimeProvider timeProvider;

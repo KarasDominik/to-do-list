@@ -1,6 +1,5 @@
 package com.karasdominik.task.internal;
 
-import com.karasdominik.task.dto.exception.TaskNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,11 +14,12 @@ import java.util.UUID;
 class TaskUpdater {
 
     private final TaskRepository tasks;
+    private final TaskAssertions assertions;
 
     public void update(UUID taskId) {
         log.info("Updating status of task {}", taskId);
-        var task = tasks.findById(taskId)
-                .orElseThrow(() -> new TaskNotFoundException(taskId));
+        var task = tasks.findOrThrow(taskId);
+        assertions.assertLoggedUserCanAccessTask(task);
         task.update();
         log.info("Task {} updated", task.id());
     }

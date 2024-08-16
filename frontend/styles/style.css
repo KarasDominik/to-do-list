@@ -3,6 +3,12 @@ body {
     font-family: Arial, sans-serif;
 }
 
+#logout-button {
+    float: right;
+    margin-right: 2%;
+    margin-top: 1px;
+}
+
 #input {
     max-width: fit-content;
     margin-top: 40px;

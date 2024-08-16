@@ -14,9 +14,12 @@ import java.util.UUID;
 class TaskRemover {
 
     private final TaskRepository tasks;
+    private final TaskAssertions taskAssertions;
 
     public void deleteBy(UUID id) {
         log.info("Deleting task {}", id);
+        var task = tasks.findOrThrow(id);
+        taskAssertions.assertLoggedUserCanAccessTask(task);
         tasks.deleteById(id);
         log.info("Task {} deleted", id);
     }
