@@ -22,7 +22,7 @@ public record DecodedPassword(String value) {
         notBlank(PASSWORD, value);
         maxLength(PASSWORD, value, 30);
         minLength(PASSWORD, value, 8);
-        isValid(isValidPassword(value), PASSWORD);
+        isValid(isValidPassword(value), "Password must contain uppercase letter, digit and special character");
     }
 
     private boolean isValidPassword(String value) {

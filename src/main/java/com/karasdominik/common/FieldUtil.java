@@ -40,6 +40,12 @@ public class FieldUtil {
         }
     }
 
+    public static void isValid(boolean expression, String errorMessage) {
+        if (!expression) {
+            throw new InvalidFieldException(errorMessage);
+        }
+    }
+
     public static boolean isEmail(String value) {
         return EmailValidator.getInstance().isValid(value);
     }

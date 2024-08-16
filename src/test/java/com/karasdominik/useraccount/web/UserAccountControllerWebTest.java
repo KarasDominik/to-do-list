@@ -86,8 +86,8 @@ class UserAccountControllerWebTest {
 
                     Arguments.of(Requests.INVALID_PASSWORD_TOO_LONG, "Password can contain up to 30 characters"),
                     Arguments.of(Requests.INVALID_PASSWORD_TOO_SHORT, "Password must contain at least 8 characters"),
-                    Arguments.of(Requests.INVALID_PASSWORD_NO_NUMBER, "Password is invalid"),
-                    Arguments.of(Requests.INVALID_PASSWORD_NO_SPECIAL_CHARACTER, "Password is invalid")
+                    Arguments.of(Requests.INVALID_PASSWORD_NO_NUMBER, "Password must contain uppercase letter, digit and special character"),
+                    Arguments.of(Requests.INVALID_PASSWORD_NO_SPECIAL_CHARACTER, "Password must contain uppercase letter, digit and special character")
 
             );
         }
