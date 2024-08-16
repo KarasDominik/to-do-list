@@ -25,3 +25,10 @@ v2 (current) - With this update, the functionality of creating user account and 
 Plans for further updates:
 - Change frontend implementation from basic HTML / CSS / JavaScript to React.js to enhance user experience
 - Add new functionalities regarding tasks, such as recurring tasks
+
+### What makes this app unique?
+
+There are many to-do lists out there, but not as many good ones. The advantages of this project are:
+- User interface - The very basic, but yet effective graphical interface enables us to use the application straight from the browser without the need to use Postman or other HTTP client.
+- Docker - the containerization of the app made it easy for users to run it and for me to deploy it. Having the application packed into container, I have the possibility to deploy it onto AWS very quickly and easily.
+- Tests - To ensure the server works as expected, there are plenty of tests that include integration, web and unit tests. The server has been thoroughly tested, which is demonstrated by its high level of test coverage equal to almost 100%.
