@@ -14,7 +14,7 @@ function updateTable() {
 }
 
 async function fetchTasks() {
-    const response = await fetch("http://localhost:8080/api/v1/task");
+    const response = await fetch("/api/v1/task");
     return await response.json();
 }
 
@@ -37,7 +37,7 @@ function generateTable(tasks) {
 
 async function addTask() {
     const task = document.getElementById("task-input").value;
-    await fetch("http://localhost:8080/api/v1/task",
+    await fetch("/api/v1/task",
         {
             method: 'POST',
             headers: {
@@ -56,7 +56,7 @@ function clearForm() {
 }
 
 async function updateTask(taskId) {
-    await fetch("http://localhost:8080/api/v1/task/" + taskId,
+    await fetch("/api/v1/task/" + taskId,
         {
             method: 'PUT'
         });
@@ -64,7 +64,7 @@ async function updateTask(taskId) {
 }
 
 async function deleteTask(taskId) {
-    await fetch("http://localhost:8080/api/v1/task/" + taskId,
+    await fetch("/api/v1/task/" + taskId,
         {
             method: 'DELETE'
         });
