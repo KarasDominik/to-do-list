@@ -1,0 +1,10 @@
+services:
+  backend:
+    container_name: web-app-backend
+    image: dominik4871/todo-list:latest
+    ports:
+      - 80:8080
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://awseb-e-f8sgdapr4i-stack-awsebrdsdatabase-ry81aiugna73.ct0mqamyi83i.eu-north-1.rds.amazonaws.com:5432/todolist
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=password
