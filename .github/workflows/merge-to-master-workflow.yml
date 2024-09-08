@@ -20,6 +20,10 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
+      - name: Generate version label
+        id: version_label
+        run: echo "VERSION_LABEL=version-${{ github.sha }}" >> $GITHUB_ENV
+
       - name: Build project with maven
         run: mvn clean install
 
@@ -27,7 +31,7 @@ jobs:
         uses: mr-smithers-excellent/docker-build-push@v6
         with:
           image: dominik4871/todo-list
-          tags: latest
+          tags: ${{ secrets.VERSION_LABEL }}
           registry: docker.io
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
@@ -39,6 +43,6 @@ jobs:
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           application_name: to-do-list
           environment_name: To-do-list-dev
-          version_label: latest
+          version_label: ${{ secrets.VERSION_LABEL }}
           region: eu-north-1
           deployment_package: devops/dev/docker-compose.yml
