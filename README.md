@@ -2,8 +2,6 @@
 
 Some wise man once said you should never call yourself a self-taught software engineer unless you've created a to-do list application, so here is mine!
 
-Since the application is deployed using AWS Elastic Beanstalk, you can access it using this link: <link>http://todolist-dev.eu-north-1.elasticbeanstalk.com</link>
-
 ## Prerequisites
 To run the application locally, ensure you have Docker Compose installed. If you haven't, follow the [Docker Compose installation guide](https://docs.docker.com/compose/install/).
 ## Getting Started
