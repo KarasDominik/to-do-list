@@ -2,7 +2,6 @@ package com.karasdominik.task.internal;
 
 import com.karasdominik.task.dto.CreateTaskCommand;
 import com.karasdominik.useraccount.internal.UserAccount;
-import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -17,7 +16,6 @@ import java.util.function.Supplier;
 
 import static java.util.UUID.randomUUID;
 
-@Entity
 @SuperBuilder
 @NoArgsConstructor
 @Getter
