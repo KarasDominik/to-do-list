@@ -18,9 +18,9 @@ There are many to-do lists out there, but not as many good ones. The advantages 
 - **Backend:**
   - Spring Boot (Spring Data JPA, Spring Security)
 - **Tests:**
-  - Mockito, AssertJ, RestAssured
+  - Mockito, AssertJ, RestAssured, Testcontainers
 - **Database:**
-  - PostgreSQL
+  - PostgreSQL, Flyway
 - **Deployment:**
   - AWS
   - Docker
