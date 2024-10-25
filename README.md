@@ -2,8 +2,34 @@
 
 Some wise man once said you should never call yourself a self-taught software engineer unless you've created a to-do list application, so here is mine!
 
+### What makes this app unique?
+
+There are many to-do lists out there, but not as many good ones. The advantages of this project are:
+- Docker - the containerization of the app made it easy for users to run it and for me to deploy it. Thanks to the application being containerized, it can be easily deployed across all environments, from the cloud to a local machine.
+- Tests - To ensure the server works as expected, there are plenty of tests that include integration, web and unit tests. The server has been thoroughly tested, which is demonstrated by its high level of test coverage equal to almost 100%.
+- Continous Integration/Delivery - configured CI/CD workflow using GitHub actions made it much easier to deliver new features straight to the user.
+- User interface - The very basic, but yet effective graphical interface enables us to use the application straight from the browser without the need to use Postman or other HTTP client.
+
+## Technologies Used:
+- **Frontend:**
+  - HTML
+  - CSS
+  - JavaScript
+- **Backend:**
+  - Spring Boot (Spring Data JPA, Spring Security)
+- **Tests:**
+  - Mockito, AssertJ, RestAssured
+- **Database:**
+  - PostgreSQL
+- **Deployment:**
+  - AWS
+  - Docker
+- **CI/CD:**
+  - GitHub Actions
+
 ## Prerequisites
 To run the application locally, ensure you have Docker Compose installed. If you haven't, follow the [Docker Compose installation guide](https://docs.docker.com/compose/install/).
+
 ## Getting Started
 
 Having docker compose installed, follow these steps to run the application:
@@ -25,11 +51,3 @@ v2 (current) - With this update, the functionality of creating user account and 
 Plans for further updates:
 - Change frontend implementation from pure HTML / CSS / JavaScript to React.js to enhance user experience
 - Add new functionalities regarding tasks, such as recurring tasks
-
-### What makes this app unique?
-
-There are many to-do lists out there, but not as many good ones. The advantages of this project are:
-- Docker - the containerization of the app made it easy for users to run it and for me to deploy it. Thanks to the application being containerized, it can be easily deployed across all environments, from the cloud to a local machine.
-- Tests - To ensure the server works as expected, there are plenty of tests that include integration, web and unit tests. The server has been thoroughly tested, which is demonstrated by its high level of test coverage equal to almost 100%.
-- Continous Integration/Delivery - configured CI/CD workflow using GitHub actions made it much easier to deliver new features straight to the user.
-- User interface - The very basic, but yet effective graphical interface enables us to use the application straight from the browser without the need to use Postman or other HTTP client.
