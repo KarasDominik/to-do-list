@@ -10,6 +10,19 @@ There are many to-do lists out there, but not as many good ones. The advantages 
 - Continous Integration/Delivery - configured CI/CD workflow using GitHub actions made it much easier to deliver new features straight to the user.
 - User interface - The very basic, but yet effective graphical interface enables us to use the application straight from the browser without the need to use Postman or other HTTP client.
 
+## Some features
+# Login page
+![login](https://github.com/user-attachments/assets/87515729-d48c-4184-a8a7-96c6e25576d0)
+*Enables user to log into the application*
+# Register page
+![register-success](https://github.com/user-attachments/assets/85b882d7-f340-4a58-9a9d-780021e46bd4)
+![register](https://github.com/user-attachments/assets/60236762-8f82-44bd-bed1-bbfdaae9bedc)
+*Confirm user registration*
+# Task management
+![notasks](https://github.com/user-attachments/assets/d2f32380-3946-4afe-9625-d9ea8751eabd)
+![tasks](https://github.com/user-attachments/assets/e0d68ebc-6e63-4945-9c49-64b5e3f65e21)
+*Manage your todo list*
+
 ## Technologies Used:
 - **Frontend:**
   - HTML
