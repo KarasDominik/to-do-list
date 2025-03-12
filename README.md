@@ -1,4 +1,36 @@
-# To-do list application
+## Prerequisites
+To run the application locally, ensure you have Docker Compose installed. If you haven't, follow the [Docker Compose installation guide](https://docs.docker.com/compose/install/).
+
+## Getting Started
+
+Having docker compose installed, follow these steps to run the application:
+
+1. Clone the repository
+2. Go into <i>devops/local</i> directory
+3. Inside <i>devops/local</i> directory, run the following command to start the application:
+<code> docker compose up </code>
+4. Open your browser and go to: <link>http://localhost:8080</link>
+5. When you are done using the application, run the following command inside <i>devops/local</i> directory to remove docker containers:
+<code> docker compose down </code>
+## Architecture
+![Image](https://github.com/user-attachments/assets/5c7e7087-fdab-413e-a891-2b8a17b89536)
+## Technologies Used:
+- **Frontend:**
+  - HTML
+  - CSS
+  - JavaScript
+- **Backend:**
+  - Spring Boot (Spring Data JPA, Spring Security)
+- **Tests:**
+  - Mockito, AssertJ, RestAssured, Testcontainers
+- **Database:**
+  - PostgreSQL, Flyway
+- **Deployment:**
+  - AWS
+  - Docker
+- **CI/CD:**
+  - GitHub Actions
+## About the project
 
 Some wise man once said you should never call yourself a self-taught software engineer unless you've created a to-do list application, so here is mine!
 
@@ -22,38 +54,6 @@ There are many to-do lists out there, but not as many good ones. The advantages 
 ![notasks](https://github.com/user-attachments/assets/d2f32380-3946-4afe-9625-d9ea8751eabd)
 ![tasks](https://github.com/user-attachments/assets/e0d68ebc-6e63-4945-9c49-64b5e3f65e21)
 *Manage your todo list*
-
-## Technologies Used:
-- **Frontend:**
-  - HTML
-  - CSS
-  - JavaScript
-- **Backend:**
-  - Spring Boot (Spring Data JPA, Spring Security)
-- **Tests:**
-  - Mockito, AssertJ, RestAssured, Testcontainers
-- **Database:**
-  - PostgreSQL, Flyway
-- **Deployment:**
-  - AWS
-  - Docker
-- **CI/CD:**
-  - GitHub Actions
-
-## Prerequisites
-To run the application locally, ensure you have Docker Compose installed. If you haven't, follow the [Docker Compose installation guide](https://docs.docker.com/compose/install/).
-
-## Getting Started
-
-Having docker compose installed, follow these steps to run the application:
-
-1. Clone the repository
-2. Go into <i>devops/local</i> directory
-3. Inside <i>devops/local</i> directory, run the following command to start the application:
-<code> docker compose up </code>
-4. Open your browser and go to: <link>http://localhost:8080</link>
-5. When you are done using the application, run the following command inside <i>devops/local</i> directory to remove docker containers:
-<code> docker compose down </code>
 
 ## App versions
 
