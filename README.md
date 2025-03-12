@@ -13,7 +13,7 @@ Having docker compose installed, follow these steps to run the application:
 5. When you are done using the application, run the following command inside <i>devops/local</i> directory to remove docker containers:
 <code> docker compose down </code>
 ## Architecture
-![Image](https://github.com/user-attachments/assets/0c38ad8c-1712-4267-87f5-d076b9e6dfcf)
+![Image](https://github.com/user-attachments/assets/323fc03b-6890-40a4-bdfb-92b7301242c5)
 ## Technologies Used:
 - **Frontend:**
   - HTML
